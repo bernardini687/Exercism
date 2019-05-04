@@ -3,6 +3,8 @@ class HighScores
 
   def initialize(scores)
     @scores = scores
+    # Sort only once per instantiation.
+    @sorted_scores = scores.sort
   end
 
   def latest
@@ -10,10 +12,10 @@ class HighScores
   end
 
   def personal_best
-    @scores.max
+    @sorted_scores.last
   end
 
   def personal_top_three
-    @scores.sort.last(3).reverse
+    @sorted_scores.last(3).reverse
   end
 end
