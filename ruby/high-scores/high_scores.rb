@@ -12,4 +12,8 @@ class HighScores
   def personal_best
     @scores.max
   end
+
+  def personal_top_three
+    @scores.sort.last(3).reverse
+  end
 end
