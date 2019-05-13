@@ -1,15 +1,13 @@
-require 'pry'
-
 module FlattenArray
   def self.flatten(array)
     flatten = []
     array.each do |element|
+      next if element.nil?
+
       if element.is_a?(Array)
         self.flatten(element).map { |e| flatten << e }
-      elsif element
-        flatten << element
       else
-        next
+        flatten << element
       end
     end
     flatten
