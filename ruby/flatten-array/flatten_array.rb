@@ -5,7 +5,7 @@ module FlattenArray
       next if element.nil?
 
       if element.is_a?(Array)
-        self.flatten(element).map { |e| flatten << e }
+        self.flatten(element).each { |e| flatten << e }
       else
         flatten << element
       end
@@ -13,5 +13,3 @@ module FlattenArray
     flatten
   end
 end
-
-p FlattenArray.flatten [2, nil, 43, [34, 12], 90, nil, [nil, [422, 32], 47, '43']]
