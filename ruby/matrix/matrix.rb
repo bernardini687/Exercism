@@ -8,11 +8,6 @@ class Matrix
   end
 
   def columns
-    nums = @source.split("\n").map(&:split)
-    columns = []
-    nums[0].length.times do |index|
-      columns << nums.map { |row| row[index].to_i }
-    end
-    columns
+    rows.transpose
   end
 end
