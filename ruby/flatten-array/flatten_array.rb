@@ -5,7 +5,8 @@ module FlattenArray
       next if element.nil?
 
       if element.is_a?(Array)
-        self.flatten(element).each { |e| flatten << e }
+        flatten.concat(flatten(element))
+        # flatten(element).each { |e| flatten << e }
       else
         flatten << element
       end
