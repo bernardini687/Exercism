@@ -6,7 +6,6 @@ module FlattenArray
 
       if element.is_a?(Array)
         flatten.concat(flatten(element))
-        # flatten(element).each { |e| flatten << e }
       else
         flatten << element
       end
