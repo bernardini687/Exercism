@@ -13,5 +13,3 @@ module FlattenArray
     flatten
   end
 end
-
-p FlattenArray.flatten([0, 2, [[2, 3], 8, [[100]], nil, [[nil]]], -2])
