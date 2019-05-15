@@ -2,7 +2,7 @@ module FlattenArray
   def self.flatten(array)
     flatten = []
     array.each do |element|
-      next if element.nil? || element.size.zero?
+      next if element.nil?
 
       if element.is_a?(Array)
         flatten.concat(flatten(element))
