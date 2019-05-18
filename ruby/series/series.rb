@@ -1,15 +1,19 @@
 class Series
-  attr_reader :series
-  def initialize(series)
-    @series = series
+  attr_reader :nums
+  def initialize(nums)
+    @nums = nums
   end
 
-  def slices(num)
-    result = []
-    series.size.times do |i|
-      slice = series[i...i + num]
-      result << slice if slice.size == num
+  def slices(limit)
+    if nums.size < limit
+      raise ArgumentError.new, "Expected #{limit} to be ≤ #{nums.size}"
     end
-    result
+
+    series = []
+    nums.size.times do |i|
+      slice = nums[i...i + limit]
+      series << slice if slice.size == limit
+    end
+    series
   end
 end
