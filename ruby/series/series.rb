@@ -6,7 +6,7 @@ class Series
 
   def slices(limit)
     if nums.size < limit
-      raise ArgumentError.new, "Expected #{limit} to be ≤ #{nums.size}"
+      raise ArgumentError, "Expected #{limit} to be ≤ #{nums.size}"
     end
 
     series = []
