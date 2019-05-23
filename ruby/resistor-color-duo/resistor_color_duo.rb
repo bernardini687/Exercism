@@ -13,6 +13,6 @@ module ResistorColorDuo
   }.freeze
 
   def self.value(colors)
-    colors.map { |color| COLORS.index(color) }.join.to_i
+    colors.map { |color| COLORS[color.to_sym] }.join.to_i
   end
 end
