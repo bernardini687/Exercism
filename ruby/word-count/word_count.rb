@@ -5,5 +5,10 @@ class Phrase
   end
 
   def word_count
+    words = Hash.new(0)
+    phrase.split.each do |word|
+      words[word] += 1
+    end
+    words
   end
 end
