@@ -9,8 +9,6 @@ class Series
       raise ArgumentError, "Expected #{limit} to be ≤ #{nums.size}"
     end
 
-    slices = []
-    nums.chars.each_cons(limit) { |slice| slices << slice.join }
-    slices
+    nums.chars.each_cons(limit).map(&:join)
   end
 end
