@@ -9,11 +9,8 @@ class Series
       raise ArgumentError, "Expected #{limit} to be ≤ #{nums.size}"
     end
 
-    series = []
-    nums.size.times do |i|
-      slice = nums[i...i + limit]
-      series << slice if slice.size == limit
-    end
-    series
+    slices = []
+    nums.chars.each_cons(limit) { |slice| slices << slice.join }
+    slices
   end
 end
