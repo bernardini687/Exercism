@@ -6,8 +6,9 @@ class Phrase
 
   def word_count
     words = Hash.new(0)
-    phrase.split.each do |word|
-      words[word] += 1
+    regex = /([a-zA-Z]+'[a-zA-Z]|[a-zA-Z\d]+\b)/
+    phrase.scan(regex).flatten.each do |word|
+      words[word.downcase] += 1
     end
     words
   end
