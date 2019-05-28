@@ -1,4 +1,7 @@
+require 'pry'
+
 class Phrase
+  WORD = /\b[\w']+\b/.freeze
   attr_reader :phrase
   def initialize(phrase)
     @phrase = phrase
@@ -6,7 +9,6 @@ class Phrase
 
   def word_count
     words = Hash.new(0)
-    regex = /([a-zA-Z]+'[a-zA-Z]|[a-zA-Z\d]+\b)/
     phrase.scan(regex).flatten.each do |word|
       words[word.downcase] += 1
     end
