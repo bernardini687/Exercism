@@ -1,6 +1,6 @@
 module ResistorColorDuo
   COLORS = {
-    black: 0,
+    'black' => '0',
     brown: 1,
     red: 2,
     orange: 3,
@@ -13,6 +13,6 @@ module ResistorColorDuo
   }.freeze
 
   def self.value(colors)
-    colors.map { |color| COLORS[color.to_sym] }.join.to_i
+    colors.sum('') { |color| COLORS[color] }.to_i
   end
 end
