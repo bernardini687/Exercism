@@ -1,5 +1,5 @@
 class Phrase
-  WORDS = /\b[\w']+\b/.freeze
+  WORDS = /\b[\w']+\b/
   attr_reader :phrase
   def initialize(phrase)
     @phrase = phrase
