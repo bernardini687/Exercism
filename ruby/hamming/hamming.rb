@@ -5,8 +5,6 @@ module Hamming
     end
 
     nucleotides = strand1.chars.zip(strand2.chars)
-    nucleotides.count do |n1, n2|
-      n1 != n2
-    end
+    nucleotides.count { |n1, n2| n1 != n2 }
   end
 end
