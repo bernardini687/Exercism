@@ -1,8 +1,8 @@
 module Raindrops
   def self.convert(number, output = '')
-    output += 'Pling' if number % 3 == 0
-    output += 'Plang' if number % 5 == 0
-    output += 'Plong' if number % 7 == 0
-    output == '' ? number : output
+    output += 'Pling' if (number % 3).zero?
+    output += 'Plang' if (number % 5).zero?
+    output += 'Plong' if (number % 7).zero?
+    output == '' ? number.to_s : output
   end
 end
