@@ -1,16 +1,21 @@
+require 'pry'
 module Raindrops
-  SOUNDS = {
+  FACTORS_TO_SOUND = {
     3 => 'Pling',
     5 => 'Plang',
     7 => 'Plong'
   }.freeze
 
-  class
-    def self.convert(number)
+  class << self
+    def sound_or_blank(number, factor)
+      (number % factor).zero? ? FACTORS_TO_SOUND[factor] : ''
+    end
+
+    def convert(number)
       sound = ''
-      sound << SOUNDS[3] if (number % 3).zero?
-      sound << SOUNDS[5] if (number % 5).zero?
-      sound << SOUNDS[7] if (number % 7).zero?
+      sound << sound_or_blank(number, 3)
+      sound << sound_or_blank(number, 5)
+      sound << sound_or_blank(number, 7)
       sound.empty? ? number.to_s : sound
     end
 
@@ -19,7 +24,8 @@ module Raindrops
 end
 
 if $PROGRAM_NAME == __FILE__
-  p Raindrops.sound_of(28)
-  p Raindrops.sound_of(35)
-  p Raindrops.sound_of(42)
+  p Raindrops.sound_of(21)
+  p Raindrops.sound_of(9)
+  p Raindrops.sound_of(105)
+  p Raindrops.sound_of(3)
 end
