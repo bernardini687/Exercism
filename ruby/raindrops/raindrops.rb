@@ -1,4 +1,3 @@
-require 'pry'
 module Raindrops
   FACTORS_TO_SOUND = {
     3 => 'Pling',
@@ -24,8 +23,5 @@ module Raindrops
 end
 
 if $PROGRAM_NAME == __FILE__
-  p Raindrops.sound_of(21)
-  p Raindrops.sound_of(9)
-  p Raindrops.sound_of(105)
-  p Raindrops.sound_of(3)
+  Raindrops.sound_of(21)
 end
