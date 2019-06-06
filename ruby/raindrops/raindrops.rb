@@ -1,27 +1,21 @@
 module Raindrops
-  FACTORS_TO_SOUND = {
-    3 => 'Pling',
-    5 => 'Plang',
-    7 => 'Plong'
-  }.freeze
-
-  class << self
-    def sound_or_blank(number, factor)
-      (number % factor).zero? ? FACTORS_TO_SOUND[factor] : ''
+  refine Integer do
+    def divisible_by?(number)
+      (self % number).zero?
     end
-
-    def convert(number)
-      sound = ''
-      sound << sound_or_blank(number, 3)
-      sound << sound_or_blank(number, 5)
-      sound << sound_or_blank(number, 7)
-      sound.empty? ? number.to_s : sound
-    end
-
-    alias sound_of convert
   end
+
+  using self
+
+  def self.convert(number)
+    sound = ''
+    sound << 'Pling' if number.divisible_by? 3
+    sound << 'Plang' if number.divisible_by? 5
+    sound << 'Plong' if number.divisible_by? 7
+    sound.empty? ? number.to_s : sound
+  end
+
+  # alias sound_of convert
 end
 
-if $PROGRAM_NAME == __FILE__
-  Raindrops.sound_of(21)
-end
+puts Raindrops.convert(21) if $PROGRAM_NAME == __FILE__
