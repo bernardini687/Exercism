@@ -7,16 +7,17 @@ module Raindrops
 
   using self
 
-  class << self
-    def convert(number)
-      sound = ''
-      sound << 'Pling' if number.divisible_by? 3
-      sound << 'Plang' if number.divisible_by? 5
-      sound << 'Plong' if number.divisible_by? 7
-      sound.empty? ? number.to_s : sound
-    end
+  def self.convert(number)
+    new(number).to_s
   end
-  # alias sound_of convert
+
+  def self.new(number)
+    sound = ''
+    sound << 'Pling' if number.divisible_by? 3
+    sound << 'Plang' if number.divisible_by? 5
+    sound << 'Plong' if number.divisible_by? 7
+    sound.empty? ? number : sound
+  end
 end
 
-puts Raindrops.convert(21) if $PROGRAM_NAME == __FILE__
+puts Raindrops.new(21) if $PROGRAM_NAME == __FILE__
