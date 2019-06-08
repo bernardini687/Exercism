@@ -6,9 +6,10 @@ end
 
 module Grains
   CHESSBOARD = 1..64
-  GRAINS = CHESSBOARD.to_a.each_with_object([]) do |cur, arr|
+  GRAINS = CHESSBOARD.each_with_object([]) do |cur, arr|
     arr << (arr.empty? ? cur : arr[-1] * 2)
   end
+  TOTAL = GRAINS.sum
 
   class << self
     def square(number)
@@ -17,8 +18,15 @@ module Grains
       GRAINS[number - 1]
     end
 
+    def total
+      TOTAL
+    end
+
     alias on_square square
   end
 end
 
-puts Grains.on_square(24) if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  puts Grains.on_square(24)
+  puts Grains.total
+end
