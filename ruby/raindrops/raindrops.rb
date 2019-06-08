@@ -1,22 +1,29 @@
-module Raindrops
+module Divisible
   refine Integer do
     def divisible_by?(number)
       (self % number).zero?
     end
+    alias :factor? :divisible_by?
   end
+end
 
-  using self
+class Raindrops
+  using Divisible
 
   def self.convert(number)
     new(number).to_s
   end
 
-  def self.new(number)
+  def initialize(number)
+    @number = number
+  end
+
+  def to_s
     sound = ''
-    sound << 'Pling' if number.divisible_by? 3
-    sound << 'Plang' if number.divisible_by? 5
-    sound << 'Plong' if number.divisible_by? 7
-    sound.empty? ? number : sound
+    sound << 'Pling' if @number.factor? 3
+    sound << 'Plang' if @number.factor? 5
+    sound << 'Plong' if @number.factor? 7
+    sound.empty? ? @number.to_s : sound
   end
 end
 
