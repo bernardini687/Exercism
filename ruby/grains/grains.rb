@@ -5,13 +5,20 @@ class OutOfRangeError < ArgumentError
 end
 
 module Grains
-  GRAINS = (1..64).to_a.each_with_object([]) do |cur, arr|
+  CHESSBOARD = 1..64
+  GRAINS = CHESSBOARD.to_a.each_with_object([]) do |cur, arr|
     arr << (arr.empty? ? cur : arr[-1] * 2)
   end
 
-  def self.square(number)
-    GRAINS[number - 1]
+  class << self
+    def square(number)
+      raise OutOfRangeError unless CHESSBOARD.cover?(number)
+
+      GRAINS[number - 1]
+    end
+
+    alias on_square square
   end
 end
 
-puts Grains.square(64) if $PROGRAM_NAME == __FILE__
+puts Grains.on_square(24) if $PROGRAM_NAME == __FILE__
