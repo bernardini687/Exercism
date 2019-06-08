@@ -1,14 +1,10 @@
-require 'pry'
 module Grains
-  GRAINS = (1..64).to_a.each_with_object([]) do |cur, memo|
-    val = memo.empty? ? cur : memo[-1] * 2
-    memo << val
+  GRAINS = (1..64).to_a.each_with_object([]) do |cur, arr|
+    arr << (arr.empty? ? cur : arr[-1] * 2)
   end
 
-  binding.pry
-
   def self.square(number)
-    GRAINS[number]
+    GRAINS[number - 1]
   end
 end
 
