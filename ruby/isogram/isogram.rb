@@ -10,6 +10,6 @@ module Isogram
 end
 
 if $PROGRAM_NAME == __FILE__
-  p Isogram.isogram?('Bourne')
-  p Isogram.isogram?(4)
+  puts Isogram.isogram?('Bourne')
+  puts Isogram.isogram?(4)
 end
