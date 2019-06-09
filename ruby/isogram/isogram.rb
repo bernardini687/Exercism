@@ -1,4 +1,4 @@
-class ArgumentIsNoString < ArgumentError
+class InvalidArgument < ArgumentError
   def initialize(message = 'The argument must be a String.')
     super
   end
@@ -6,7 +6,7 @@ end
 
 module Isogram
   def self.isogram?(input)
-    raise ArgumentIsNoString unless input.is_a? String
+    raise InvalidArgument unless input.is_a? String
 
     string = input.gsub(/[-\s]/, '')
     string ||= input
@@ -15,4 +15,7 @@ module Isogram
   end
 end
 
-p Isogram.isogram?(4) if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  p Isogram.isogram?('Bourne')
+  p Isogram.isogram?(4)
+end
