@@ -1,17 +1,11 @@
-class InvalidArgument < ArgumentError
-  def initialize(message = 'The argument must be a String.')
-    super
-  end
-end
-
 module Isogram
   def self.isogram?(input)
-    raise InvalidArgument unless input.is_a? String
+    unless input.is_a? String
+      raise ArgumentError, 'The argument must be a String.'
+    end
 
-    string = input.gsub(/[-\s]/, '')
-    string ||= input
-    string.downcase!
-    string.length == string.chars.uniq.length
+    string = input.downcase.scan(/\w/)
+    string.length == string.uniq.length
   end
 end
 
