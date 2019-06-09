@@ -19,11 +19,17 @@ class Raindrops
   end
 
   def to_s
-    sound = ''
+    sound = define_sound
+    sound.empty? ? @number.to_s : sound
+  end
+
+  private
+
+  def define_sound(sound = '')
     sound << 'Pling' if @number.factor? 3
     sound << 'Plang' if @number.factor? 5
     sound << 'Plong' if @number.factor? 7
-    sound.empty? ? @number.to_s : sound
+    sound
   end
 end
 
