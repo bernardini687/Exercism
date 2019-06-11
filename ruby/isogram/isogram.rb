@@ -1,10 +1,10 @@
 module Isogram
-  def self.isogram?(string)
-    unless string.is_a? String
-      raise ArgumentError, 'The argument must be a String.'
+  def self.isogram?(phrase)
+    unless phrase.is_a? String
+      raise ArgumentError, 'The argument must be a word or a phrase.'
     end
 
-    letters = string.downcase.scan(/\w/)
+    letters = phrase.downcase.scan(/[[:lower:]]/)
     letters.length == letters.uniq.length
   end
 end
