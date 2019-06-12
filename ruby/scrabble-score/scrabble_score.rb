@@ -10,7 +10,7 @@ class Scrabble
   ].freeze
 
   def initialize(word)
-    @word = word
+    @word = word || ''
   end
 
   def score
