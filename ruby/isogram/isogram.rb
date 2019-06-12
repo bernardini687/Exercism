@@ -11,5 +11,5 @@ end
 
 if $PROGRAM_NAME == __FILE__
   puts Isogram.isogram?('Bourne')
-  puts Isogram.isogram?(4)
+  Isogram.isogram?(4)
 end
