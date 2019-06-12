@@ -13,6 +13,10 @@ class Scrabble
     @word = word || ''
   end
 
+  def self.score(word)
+    new(word).score
+  end
+
   def score
     @word.upcase.chars.map { |char| value_of(char) }.sum
   end
