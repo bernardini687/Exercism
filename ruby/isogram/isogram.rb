@@ -10,6 +10,6 @@ module Isogram
 end
 
 if $PROGRAM_NAME == __FILE__
-  puts Isogram.isogram?('Bourne')
+  puts '%s is an isogram: %s' % [word = 'Bourne', Isogram.isogram?(word)]
   Isogram.isogram?(4)
 end
