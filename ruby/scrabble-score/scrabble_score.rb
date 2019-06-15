@@ -17,12 +17,18 @@ class Scrabble
     new(word).score
   end
 
-  def score
-    @word.upcase.chars.map { |char| value_of(char) }.sum
+  def letters
+    @word.upcase.chars
   end
 
-  def value_of(letter)
-    value = RULES.select { |letters| letters.include?(letter) }
-    value.empty? ? 0 : value.flatten[-1]
+  def score
+    letters.map { |letter| score_of(letter) }.sum
+  end
+
+  private
+
+  def score_of(letter)
+    score = RULES.find { |letters| letters.include?(letter) }
+    score.nil? ? 0 : score[-1]
   end
 end
