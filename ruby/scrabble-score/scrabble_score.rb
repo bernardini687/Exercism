@@ -29,7 +29,7 @@ class Scrabble
 
   def score_of(letter)
     score = RULES.find { |letters, _value| letters.include?(letter) }
-    score.last || 0
+    score&.last || 0
   end
 end
 
