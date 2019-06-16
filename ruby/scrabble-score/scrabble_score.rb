@@ -29,6 +29,8 @@ class Scrabble
 
   def score_of(letter)
     score = RULES.find { |letters, _value| letters.include?(letter) }
-    score.nil? ? 0 : score[-1]
+    score.last || 0
   end
 end
+
+puts Scrabble.score('cabbage') if $PROGRAM_NAME == __FILE__
