@@ -6,20 +6,24 @@ end
 
 module Grains
   CHESSBOARD = 1..64
-  GRAINS = CHESSBOARD.each_with_object([]) do |cur, arr|
-    arr << (arr.empty? ? cur : arr[-1] * 2)
-  end
-  TOTAL = GRAINS.sum
 
   class << self
-    def square(number)
-      raise OutOfRangeError unless CHESSBOARD.cover?(number)
-
-      GRAINS[number - 1]
+    def grains
+      @grains ||= begin
+                    CHESSBOARD.each_with_object([]) do |cur, arr|
+                      arr << (arr.empty? ? cur : arr[-1] * 2)
+                    end
+                  end
     end
 
     def total
-      TOTAL
+      @total ||= grains.sum
+    end
+
+    def square(number)
+      raise OutOfRangeError unless CHESSBOARD.cover?(number)
+
+      grains[number - 1]
     end
 
     alias on_square square
