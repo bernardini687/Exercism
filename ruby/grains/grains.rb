@@ -10,10 +10,10 @@ module Grains
   class << self
     def grains
       @grains ||= begin
-                    CHESSBOARD.each_with_object([]) do |cur, arr|
-                      arr << (arr.empty? ? cur : arr[-1] * 2)
-                    end
-                  end
+        CHESSBOARD.each_with_object([]) do |cur, arr|
+          arr << (arr.empty? ? cur : arr[-1] * 2)
+        end
+      end
     end
 
     def total
