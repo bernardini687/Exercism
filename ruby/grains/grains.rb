@@ -15,6 +15,7 @@ module Grains
     def square(number)
       raise OutOfRangeError unless CHESSBOARD.cover?(number)
 
+      # add result to a hash so you can first look it up
       (2..number).inject(1) { |product, _| product * 2 }
     end
 
