@@ -8,14 +8,6 @@ module Grains
   CHESSBOARD = 1..64
 
   class << self
-    def grains
-      @grains ||= begin
-        CHESSBOARD.each_with_object([]) do |cur, arr|
-          arr << (arr.empty? ? cur : arr[-1] * 2)
-        end
-      end
-    end
-
     def total
       @total ||= grains.sum
     end
@@ -23,7 +15,7 @@ module Grains
     def square(number)
       raise OutOfRangeError unless CHESSBOARD.cover?(number)
 
-      grains[number - 1]
+      (2..number).inject(1) { |product, _| product * 2 }
     end
 
     alias on_square square
