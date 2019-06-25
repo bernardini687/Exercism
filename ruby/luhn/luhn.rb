@@ -1,17 +1,18 @@
 module Luhn
   def self.valid?(number)
-    return false if number.strip.size <= 1
+    number = number.gsub(/\s+/, '')
+    return false if number.size <= 1 || number.match?(/[A-Za-z]/)
 
     (sum(number) % 10).zero?
   end
 
   def self.sum(number)
-    number.gsub(/\s+/, '').reverse.split('').map.with_index do |n, i|
-      if i.even?
-        n.to_i
+    number.reverse.split('').map.with_index do |digit, index|
+      if index.even?
+        digit.to_i
       else
-        double = n.to_i * 2
-        double > 9 ? double - 9 : double
+        doubled_digit = digit.to_i * 2
+        doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
       end
     end.sum
   end
