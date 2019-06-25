@@ -1,7 +1,7 @@
 module Luhn
   def self.valid?(number)
     number = number.gsub(/\s+/, '')
-    return false if number.size <= 1 || number.match?(/[A-Za-z]/)
+    return false if number.size <= 1 || number.match?(/\D/)
 
     (sum(number) % 10).zero?
   end
@@ -19,5 +19,6 @@ module Luhn
 end
 
 if $PROGRAM_NAME == __FILE__
-  p Luhn.valid?('4539 1488 0343 6467')
+  puts Luhn.valid?('4539 1488 0343 6467')
+  puts Luhn.valid?('055-444-285')
 end
