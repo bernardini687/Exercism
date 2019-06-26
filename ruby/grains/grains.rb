@@ -8,14 +8,6 @@ module Grains
   CHESSBOARD = 1..64
 
   class << self
-    def grains
-      @grains ||= begin
-        (2..64).each_with_object([1]) do |_, arr|
-          arr << arr[-1] * 2
-        end
-      end
-    end
-
     def total
       @total ||= grains.sum
     end
@@ -27,6 +19,16 @@ module Grains
     end
 
     alias on_square square
+
+    private
+
+    def grains
+      @grains ||= begin
+        grains_on_squares = [1]
+        63.times { grains_on_squares << grains_on_squares.last * 2 }
+        grains_on_squares
+      end
+    end
   end
 end
 
