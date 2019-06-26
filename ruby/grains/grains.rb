@@ -8,6 +8,14 @@ module Grains
   CHESSBOARD = 1..64
 
   class << self
+    def grains
+      @grains ||= begin
+        (2..64).each_with_object([1]) do |_, arr|
+          arr << arr[-1] * 2
+        end
+      end
+    end
+
     def total
       @total ||= grains.sum
     end
@@ -15,8 +23,7 @@ module Grains
     def square(number)
       raise OutOfRangeError unless CHESSBOARD.cover?(number)
 
-      # add result to a hash so you can first look it up
-      (2..number).inject(1) { |product, _| product * 2 }
+      grains[number - 1]
     end
 
     alias on_square square
@@ -26,4 +33,6 @@ end
 if $PROGRAM_NAME == __FILE__
   puts Grains.on_square(24)
   puts Grains.total
+  # Calculate the number of grains on the given square number
+  # (2..number).inject(1) { |memo, _| memo * 2 }
 end
