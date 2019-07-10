@@ -12,7 +12,7 @@ module LuhnOps
       reverse.chars.each_slice(2)
     end
 
-    def to_luhn_double_i
+    def to_double
       doubled_digit = to_i * 2
       doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
     end
@@ -34,7 +34,7 @@ class Luhn
 
   def self.sum(number)
     number.reverse_pairs.flat_map do |pair|
-      [pair.first.to_i, pair.last.to_luhn_double_i]
+      [pair.first.to_i, pair.last.to_double]
     end.sum
   end
 end
