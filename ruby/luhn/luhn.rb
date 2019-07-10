@@ -7,6 +7,10 @@ module Provable
     def has_invalid_digits?
       match?(/\D/)
     end
+
+    def reverse_chars
+      reverse.chars
+    end
   end
 end
 
@@ -24,7 +28,7 @@ class Luhn
   private
 
   def self.sum(number)
-    number.reverse.split('').map.with_index do |digit, index|
+    number.reverse_chars.map.with_index do |digit, index|
       if index.even?
         digit.to_i
       else
