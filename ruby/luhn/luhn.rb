@@ -1,4 +1,4 @@
-module Provable
+module LuhnOps
   refine String do
     def has_too_many_digits?
       size <= 1
@@ -8,8 +8,8 @@ module Provable
       match?(/\D/)
     end
 
-    def reverse_chars
-      reverse.chars
+    def reverse_pairs
+      reverse.chars.each_slice(2)
     end
 
     def to_luhn_double_i
@@ -20,7 +20,7 @@ module Provable
 end
 
 class Luhn
-  using Provable
+  using LuhnOps
 
   def self.valid?(number)
     number = number.gsub(/\s+/, '')
@@ -33,7 +33,7 @@ class Luhn
   private
 
   def self.sum(number)
-    number.reverse_chars.each_slice(2).flat_map do |pair|
+    number.reverse_pairs.flat_map do |pair|
       [pair.first.to_i, pair.last.to_luhn_double_i]
     end.sum
   end
