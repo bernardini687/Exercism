@@ -1,35 +1,37 @@
-class Luhn
-  def self.valid?(number)
-    number = number.gsub(/\s+/, '')
-    return false if too_many_chars?(number)
-    return false if no_digits?(number)
+module Luhn
+  class << self
+    def valid?(number)
+      number = number.gsub(/\s+/, '')
+      return false if too_many_chars?(number)
+      return false if no_digits?(number)
 
-    (sum(number) % 10).zero?
-  end
+      (sum(number) % 10).zero?
+    end
 
-  private
+    private
 
-  def self.too_many_chars?(number)
-    number.size <= 1
-  end
+    def too_many_chars?(number)
+      number.size <= 1
+    end
 
-  def self.no_digits?(number)
-    number.match?(/\D/)
-  end
+    def no_digits?(number)
+      number.match?(/\D/)
+    end
 
-  def self.sum(number)
-    reverse_pairs(number).flat_map do |pair|
-      [pair.first.to_i, double(pair.last)]
-    end.sum
-  end
+    def sum(number)
+      reverse_pairs(number).flat_map do |pair|
+        [pair.first.to_i, double(pair.last)]
+      end.sum
+    end
 
-  def self.reverse_pairs(number)
-    number.reverse.chars.each_slice(2)
-  end
+    def reverse_pairs(number)
+      number.reverse.chars.each_slice(2)
+    end
 
-  def self.double(digit)
-    doubled_digit = digit.to_i * 2
-    doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
+    def double(digit)
+      doubled_digit = digit.to_i * 2
+      doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
+    end
   end
 end
 
