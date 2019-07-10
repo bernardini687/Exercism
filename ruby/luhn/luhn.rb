@@ -1,3 +1,15 @@
+module Provable
+  refine String do
+    def too_many_digits?
+      size <= 1
+    end
+
+    def valid_digits?
+      match?(/\D/)
+    end
+  end
+end
+
 module Luhn
   class << self
     def valid?(number)
