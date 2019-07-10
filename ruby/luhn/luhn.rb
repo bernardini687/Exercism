@@ -11,6 +11,11 @@ module Provable
     def reverse_chars
       reverse.chars
     end
+
+    def to_luhn_double_i
+      doubled_digit = to_i * 2
+      doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
+    end
   end
 end
 
@@ -28,13 +33,8 @@ class Luhn
   private
 
   def self.sum(number)
-    number.reverse_chars.map.with_index do |digit, index|
-      if index.even?
-        digit.to_i
-      else
-        doubled_digit = digit.to_i * 2
-        doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
-      end
+    number.reverse_chars.each_slice(2).flat_map do |pair|
+      [pair.first.to_i, pair.last.to_luhn_double_i]
     end.sum
   end
 end
