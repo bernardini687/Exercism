@@ -4,36 +4,34 @@ module Provable
       size <= 1
     end
 
-    def invalid_digits?
+    def has_invalid_digits?
       match?(/\D/)
     end
   end
 end
 
-module Luhn
-  class << self
-    using Provable
+class Luhn
+  using Provable
 
-    def valid?(number)
-      number = number.gsub(/\s+/, '')
-      return false if number.too_many_digits?
-      return false if number.has_invalid_digits?
+  def self.valid?(number)
+    number = number.gsub(/\s+/, '')
+    return false if number.too_many_digits?
+    return false if number.has_invalid_digits?
 
-      (sum(number) % 10).zero?
-    end
+    (sum(number) % 10).zero?
+  end
 
-    private
+  private
 
-    def sum(number)
-      number.reverse.split('').map.with_index do |digit, index|
-        if index.even?
-          digit.to_i
-        else
-          doubled_digit = digit.to_i * 2
-          doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
-        end
-      end.sum
-    end
+  def self.sum(number)
+    number.reverse.split('').map.with_index do |digit, index|
+      if index.even?
+        digit.to_i
+      else
+        doubled_digit = digit.to_i * 2
+        doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
+      end
+    end.sum
   end
 end
 
