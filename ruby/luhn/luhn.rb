@@ -7,15 +7,6 @@ module LuhnOps
     def has_invalid_digits?
       match?(/\D/)
     end
-
-    def reverse_pairs
-      reverse.chars.each_slice(2)
-    end
-
-    def to_double
-      doubled_digit = to_i * 2
-      doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
-    end
   end
 end
 
@@ -33,9 +24,18 @@ class Luhn
   private
 
   def self.sum(number)
-    number.reverse_pairs.flat_map do |pair|
-      [pair.first.to_i, pair.last.to_double]
+    reverse_pairs(number).flat_map do |pair|
+      [pair.first.to_i, double(pair.last)]
     end.sum
+  end
+
+  def self.reverse_pairs(number)
+    number.reverse.chars.each_slice(2)
+  end
+
+  def self.double(digit)
+    doubled_digit = digit.to_i * 2
+    doubled_digit > 9 ? doubled_digit - 9 : doubled_digit
   end
 end
 
