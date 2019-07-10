@@ -4,7 +4,7 @@ module Provable
       size <= 1
     end
 
-    def valid_digits?
+    def invalid_digits?
       match?(/\D/)
     end
   end
@@ -12,9 +12,12 @@ end
 
 module Luhn
   class << self
+    using Provable
+
     def valid?(number)
       number = number.gsub(/\s+/, '')
-      return false if number.size <= 1 || number.match?(/\D/)
+      return false if number.too_many_digits?
+      return false if number.has_invalid_digits?
 
       (sum(number) % 10).zero?
     end
