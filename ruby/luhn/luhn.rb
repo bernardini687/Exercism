@@ -19,9 +19,9 @@ module Luhn
     end
 
     def sum(number)
-      reverse_pairs(number).flat_map do |pair|
-        [pair.first.to_i, double(pair.last)]
-      end.sum
+      reverse_pairs(number).sum do |even, odd|
+        even.to_i + double(odd)
+      end
     end
 
     def reverse_pairs(number)
