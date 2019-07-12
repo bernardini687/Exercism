@@ -10,17 +10,15 @@ class Luhn
   end
 
   def self.valid?(raw_number)
-    luhn_number = Luhn.new(raw_number)
-
-    return false if luhn_number.has_too_many_chars?
-    return false if luhn_number.has_no_digits?
-
-    (luhn_number.sum % 10).zero?
+    Luhn.new(raw_number).valid?
   end
 
- # def valid?
- #   Luhn.valid?(raw_number)
- # end
+  def valid?
+    return false if has_too_many_chars?
+    return false if has_no_digits?
+
+    (sum % 10).zero?
+  end
 
   def has_too_many_chars?
     number.size <= 1
