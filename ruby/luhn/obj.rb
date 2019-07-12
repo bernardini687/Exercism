@@ -5,38 +5,41 @@ class Luhn
     @raw_number = raw_number
   end
 
-  def self.valid?(number)
-    number = number.gsub(/\s+/, '')
-    number = Luhn.new(number) unless self.class == Luhn
-
-    return false if number.has_too_many_chars?
-    return false if number.has_no_digits?
-
-    (number.sum % 10).zero?
+  def number
+    @number ||= raw_number.gsub(/\s+/, '')
   end
 
-  def valid?
-    Luhn.valid?(@number)
+  def self.valid?(raw_number)
+    luhn_number = Luhn.new(raw_number)
+
+    return false if luhn_number.has_too_many_chars?
+    return false if luhn_number.has_no_digits?
+
+    (luhn_number.sum % 10).zero?
   end
+
+ # def valid?
+ #   Luhn.valid?(raw_number)
+ # end
 
   def has_too_many_chars?
-    @number.size <= 1
+    number.size <= 1
   end
 
   def has_no_digits?
-    @number.match(/\D/)
+    number.match?(/\D/)
   end
 
   def sum
-    reverse_pairs(@number).sum do |even, odd|
+    reverse_pairs.sum do |even, odd|
       even.to_i + double(odd)
     end
   end
 
-  # private
+  private
 
   def reverse_pairs
-    @number.reverse.chars.each_slice(2)
+    number.reverse.chars.each_slice(2)
   end
 
   def double(digit)
