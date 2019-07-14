@@ -49,6 +49,12 @@ class Clock
     Clock.new(hour: hours, minute: minutes)
   end
 
+  def -(clock)
+    hours = raw_hour - clock.raw_hour
+    minutes = raw_minute - clock.raw_minute
+    Clock.new(hour: hours, minute: minutes)
+  end
+
   def zero_pad(number)
     "%02d" % number
   end
