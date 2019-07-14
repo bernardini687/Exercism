@@ -27,8 +27,7 @@ class Clock
       if raw_minute > HOUR
         roll_over_minute(raw_minute, :-)
       elsif raw_minute == HOUR
-        self.raw_hour += 1
-        0
+        increment_hour
       elsif raw_minute < 0
         roll_over_minute(raw_minute, :+)
       else
@@ -38,7 +37,8 @@ class Clock
   end
 
   def to_s
-    minutes = zero_pad(minute) # Minutes first to allocate exceeding hours
+    # First calculates minutes to allocate exceeding hours
+    minutes = zero_pad(minute)
     "#{zero_pad(hour)}:#{minutes}"
   end
 
@@ -60,6 +60,11 @@ class Clock
 
   private
 
+  def increment_hour
+    self.raw_hour += 1
+    0
+  end
+
   def zero_pad(number)
     '%02d' % number
   end
@@ -78,8 +83,7 @@ class Clock
     if time < HOUR && time >= 0
       return time
     elsif time == HOUR
-      self.raw_hour += 1
-      return 0
+      return increment_hour
     end
 
     if op == :-
