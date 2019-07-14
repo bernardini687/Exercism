@@ -24,7 +24,7 @@ class Clock
   def minute
     @minute ||= begin
       if raw_minute > 60
-        roll_over_minute(raw_minute)
+        roll_over_minute(raw_minute, :-)
       elsif raw_minute == 60
         self.raw_hour += 1
         0
@@ -55,7 +55,7 @@ class Clock
     roll_over_hour(time.send(op, 24), op)
   end
 
-  def roll_over_minute(time)
+  def roll_over_minute(time, op)
     if time < 60
       return time
     elsif time == 60
@@ -64,7 +64,7 @@ class Clock
     end
 
     self.raw_hour += 1
-    roll_over_minute(time - 60)
+    roll_over_minute(time.send(op, 60), op)
   end
 end
 
