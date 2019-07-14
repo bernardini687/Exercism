@@ -1,3 +1,5 @@
+require 'pry'
+
 class Clock
   attr_accessor :raw_hour
   attr_reader :raw_minute
@@ -41,6 +43,12 @@ class Clock
     "#{zero_pad(hour)}:#{minutes}"
   end
 
+  def +(clock)
+    hours = raw_hour + clock.raw_hour
+    minutes = raw_minute + clock.raw_minute
+    Clock.new(hour: hours, minute: minutes)
+  end
+
   def zero_pad(number)
     "%02d" % number
   end
@@ -78,4 +86,5 @@ if $PROGRAM_NAME == __FILE__
   puts Clock.new(minute: 120).to_s
   puts Clock.new(hour: 48).to_s
   puts Clock.new(hour: 48, minute: 120).to_s
+  puts Clock.new(hour: 10) + Clock.new(minute: 61)
 end
