@@ -1,9 +1,12 @@
+require 'pry'
+
 class Clock
-  attr_reader :raw_hour, :minute
+  attr_accessor :raw_hour
+  attr_reader :raw_minute
 
   def initialize(time)
     @raw_hour = time[:hour] || 0
-    @minute = time[:minute] || 0
+    @raw_minute = time[:minute] || 0
   end
 
   def hour
@@ -18,8 +21,22 @@ class Clock
     end
   end
 
+  def minute
+    @minute ||= begin
+      if raw_minute > 60
+        roll_over(raw_minute, 60)
+      elsif raw_minute == 60
+        self.raw_hour += 1
+        0
+      else
+        raw_minute
+      end
+    end
+  end
+
   def to_s
-    "#{zero_pad(hour)}:#{zero_pad(minute)}"
+    minutes = zero_pad(minute)
+    "#{zero_pad(hour)}:#{minutes}"
   end
 
   def zero_pad(number)
@@ -32,6 +49,7 @@ class Clock
     return time if time <= amount
 
     less = time - amount
+    self.raw_hour += 1 if amount == 60
     roll_over(less, amount)
   end
 end
