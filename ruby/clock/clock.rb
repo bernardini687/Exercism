@@ -1,5 +1,3 @@
-require 'pry'
-
 class Clock
   attr_accessor :raw_hour
   attr_reader :raw_minute
@@ -12,7 +10,7 @@ class Clock
   def hour
     @hour ||= begin
       if raw_hour > 24
-        roll_over(raw_hour, 24)
+        roll_over_hour(raw_hour)
       elsif raw_hour == 24
         0
       else
@@ -24,7 +22,7 @@ class Clock
   def minute
     @minute ||= begin
       if raw_minute > 60
-        roll_over(raw_minute, 60)
+        roll_over_minute(raw_minute)
       elsif raw_minute == 60
         self.raw_hour += 1
         0
@@ -35,7 +33,7 @@ class Clock
   end
 
   def to_s
-    minutes = zero_pad(minute)
+    minutes = zero_pad(minute) # Minutes first to allocate exceeding hours
     "#{zero_pad(hour)}:#{minutes}"
   end
 
@@ -45,11 +43,27 @@ class Clock
 
   private
 
-  def roll_over(time, amount)
-    return time if time <= amount
+  def roll_over_hour(time)
+    return time if time <= 24
 
-    less = time - amount
-    self.raw_hour += 1 if amount == 60
-    roll_over(less, amount)
+    roll_over_hour(time - 24)
   end
+
+  def roll_over_minute(time)
+    if time < 60
+      return time
+    elsif time == 60
+      self.raw_hour += 1
+      return 0
+    end
+
+    self.raw_hour += 1
+    roll_over_minute(time - 60)
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  puts Clock.new(minute: 120).to_s
+  puts Clock.new(hour: 48).to_s
+  puts Clock.new(hour: 48, minute: 120).to_s
 end
