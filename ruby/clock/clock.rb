@@ -1,6 +1,5 @@
-require 'pry'
-
 class Clock
+  DAY, HOUR = 24, 60
   attr_accessor :raw_hour
   attr_reader :raw_minute
 
@@ -11,9 +10,9 @@ class Clock
 
   def hour
     @hour ||= begin
-      if raw_hour > 24
+      if raw_hour > DAY
         roll_over_hour(raw_hour, :-)
-      elsif raw_hour == 24
+      elsif raw_hour == DAY
         0
       elsif raw_hour < 0
         roll_over_hour(raw_hour, :+)
@@ -25,9 +24,9 @@ class Clock
 
   def minute
     @minute ||= begin
-      if raw_minute > 60
+      if raw_minute > HOUR
         roll_over_minute(raw_minute, :-)
-      elsif raw_minute == 60
+      elsif raw_minute == HOUR
         self.raw_hour += 1
         0
       elsif raw_minute < 0
@@ -59,26 +58,26 @@ class Clock
     self.to_s == clock.to_s
   end
 
-  def zero_pad(number)
-    "%02d" % number
-  end
-
   private
 
+  def zero_pad(number)
+    '%02d' % number
+  end
+
   def roll_over_hour(time, op)
-    if time < 24 && time >= 0
+    if time < DAY && time >= 0
       return time
-    elsif time == 24
+    elsif time == DAY
       return 0
     end
 
-    roll_over_hour(time.send(op, 24), op)
+    roll_over_hour(time.send(op, DAY), op)
   end
 
   def roll_over_minute(time, op)
-    if time < 60 && time >= 0
+    if time < HOUR && time >= 0
       return time
-    elsif time == 60
+    elsif time == HOUR
       self.raw_hour += 1
       return 0
     end
@@ -88,13 +87,6 @@ class Clock
     else
       self.raw_hour -= 1
     end
-    roll_over_minute(time.send(op, 60), op)
+    roll_over_minute(time.send(op, HOUR), op)
   end
-end
-
-if $PROGRAM_NAME == __FILE__
-  puts Clock.new(minute: 120).to_s
-  puts Clock.new(hour: 48).to_s
-  puts Clock.new(hour: 48, minute: 120).to_s
-  puts Clock.new(hour: 10) + Clock.new(minute: 61)
 end
