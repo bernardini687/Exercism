@@ -55,6 +55,10 @@ class Clock
     Clock.new(hour: hours, minute: minutes)
   end
 
+  def ==(clock)
+    self.to_s == clock.to_s
+  end
+
   def zero_pad(number)
     "%02d" % number
   end
