@@ -10,9 +10,11 @@ class Clock
   def hour
     @hour ||= begin
       if raw_hour > 24
-        roll_over_hour(raw_hour)
+        roll_over_hour(raw_hour, :-)
       elsif raw_hour == 24
         0
+      elsif raw_hour < 0
+        roll_over_hour(raw_hour, :+)
       else
         raw_hour
       end
@@ -43,10 +45,14 @@ class Clock
 
   private
 
-  def roll_over_hour(time)
-    return time if time <= 24
+  def roll_over_hour(time, op)
+    if time < 24 && time >= 0
+      return time
+    elsif time == 24
+      return 0
+    end
 
-    roll_over_hour(time - 24)
+    roll_over_hour(time.send(op, 24), op)
   end
 
   def roll_over_minute(time)
