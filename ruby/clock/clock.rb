@@ -10,16 +10,16 @@ class Clock
     @minutes ||= (hour * 60) + minute
   end
 
-  def h
-    roll_over(minutes / 60)
-  end
-
   def m
     minutes % 60
   end
 
+  def h
+    roll_over(minutes / 60)
+  end
+
   def to_s
-    "#{zero_pad(h)}:#{zero_pad(m)}"
+    "#{zero_pad h}:#{zero_pad m}"
   end
 
   def +(clock)
