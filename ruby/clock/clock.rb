@@ -1,28 +1,33 @@
 class Clock
+  attr_reader :minute, :hour
+
   def initialize(time)
     @minute = time[:minute] || 0
     @hour = time[:hour] || 0
   end
 
   def minutes
-    @minutes ||= (@hour * 60) + @minute
+    @minutes ||= (hour * 60) + minute
   end
 
-  def hour
+  def h
     roll_over(minutes / 60)
   end
 
-  def minute
+  def m
     minutes % 60
   end
 
   def to_s
-    "#{zero_pad(hour)}:#{zero_pad(minute)}"
+    "#{zero_pad(h)}:#{zero_pad(m)}"
   end
 
-#  def +(clock)
-#  end
-#
+  def +(clock)
+    m = minute + clock.minute
+    h = hour + clock.hour
+    Clock.new(hour: h, minute: m)
+  end
+
 #  def -(clock)
 #  end
 #
