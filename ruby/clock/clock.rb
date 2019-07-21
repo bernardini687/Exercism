@@ -28,12 +28,15 @@ class Clock
     Clock.new(hour: h, minute: m)
   end
 
-#  def -(clock)
-#  end
-#
-#  def ==(clock)
-#    self.to_s == clock.to_s
-#  end
+  def -(clock)
+    m = minute - clock.minute
+    h = hour - clock.hour
+    Clock.new(hour: h, minute: m)
+  end
+
+  def ==(clock)
+    to_s == clock.to_s
+  end
 
   private
 
