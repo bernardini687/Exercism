@@ -20,15 +20,15 @@ class Clock
     "#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
 
-  def +(clock)
-  end
-
-  def -(clock)
-  end
-
-  def ==(clock)
-    self.to_s == clock.to_s
-  end
+#  def +(clock)
+#  end
+#
+#  def -(clock)
+#  end
+#
+#  def ==(clock)
+#    self.to_s == clock.to_s
+#  end
 
   private
 
@@ -39,6 +39,8 @@ class Clock
   def roll_over(time)
     if time < 24 && time >= 0
       return time
+    elsif time < 0
+      return roll_over(time + 24)
     end
 
     roll_over(time - 24)
