@@ -32,20 +32,10 @@ class Clock
   end
 
   def h
-    roll_over(minutes / 60)
+    (minutes / 60) % 24
   end
 
   def zero_pad(time)
     '%02d' % time
-  end
-
-  def roll_over(time)
-    if time < 24 && time >= 0
-      return time
-    elsif time < 0
-      return roll_over(time + 24)
-    end
-
-    roll_over(time - 24)
   end
 end
