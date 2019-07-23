@@ -1,12 +1,9 @@
+require 'pry'
 class Clock
   def initialize(time)
     @hour = time[:hour] || 0
     @minute = time[:minute] || 0
     @minutes = time[:minutes]
-  end
-
-  def minutes
-    @minutes ||= (@hour * 60) + @minute
   end
 
   def to_s
@@ -22,10 +19,14 @@ class Clock
   end
 
   def ==(clock)
-    to_s == clock.to_s
+    hour == clock.hour && minute == clock.minute
   end
 
-  private
+  protected
+
+  def minutes
+    @minutes ||= (@hour * 60) + @minute
+  end
 
   def minute
     minutes % 60
@@ -34,6 +35,8 @@ class Clock
   def hour
     (minutes / 60) % 24
   end
+
+  private
 
   def zero_pad(time)
     '%02d' % time
