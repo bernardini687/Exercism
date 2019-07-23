@@ -1,5 +1,5 @@
 class OutOfRangeError < ArgumentError
-  def initialize(message = 'Number given must be within 1 and 64.')
+  def initialize(message = 'Given number must fall within 1 and 64.')
     super
   end
 end
@@ -9,7 +9,7 @@ module Grains
 
   class << self
     def total
-      @total ||= CHESSBOARD.reduce(0) { |sum, n| sum += square(n) }
+      @total ||= CHESSBOARD.reduce { |sum, n| sum += square(n) }
     end
 
     def square(number)
