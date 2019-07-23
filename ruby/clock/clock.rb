@@ -10,7 +10,7 @@ class Clock
   end
 
   def to_s
-    "#{zero_pad h}:#{zero_pad m}"
+    "#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
 
   def +(clock)
@@ -27,11 +27,11 @@ class Clock
 
   private
 
-  def m
+  def minute
     minutes % 60
   end
 
-  def h
+  def hour
     (minutes / 60) % 24
   end
 
