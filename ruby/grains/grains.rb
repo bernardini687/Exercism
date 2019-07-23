@@ -9,7 +9,7 @@ module Grains
 
   class << self
     def total
-      @total ||= CHESSBOARD.reduce { |sum, n| sum += square(n) }
+      @total ||= CHESSBOARD.reduce { |sum, n| sum += 2**(n - 1) }
     end
 
     def square(number)
