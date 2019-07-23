@@ -9,7 +9,7 @@ module Grains
 
   class << self
     def total
-      @total ||= grains.sum
+      @total ||= CHESSBOARD.reduce(0) { |sum, n| sum += square(n) }
     end
 
     def square(number)
@@ -19,22 +19,10 @@ module Grains
     end
 
     alias on_square square
-
-    private
-
-    def grains
-      @grains ||= begin
-        grains_on_squares = [1]
-        63.times { grains_on_squares << grains_on_squares.last * 2 }
-        grains_on_squares
-      end
-    end
   end
 end
 
 if $PROGRAM_NAME == __FILE__
   puts Grains.on_square(24)
   puts Grains.total
-  # Calculate the number of grains on the given square number
-  # (2..number).inject(1) { |memo, _| memo * 2 }
 end
