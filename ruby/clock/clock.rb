@@ -1,4 +1,3 @@
-require 'pry'
 class Clock
   def initialize(time)
     @hour = time[:hour] || 0
