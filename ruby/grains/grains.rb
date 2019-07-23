@@ -15,7 +15,7 @@ module Grains
     def square(number)
       raise OutOfRangeError unless CHESSBOARD.cover?(number)
 
-      grains[number - 1]
+      2**(number - 1)
     end
 
     alias on_square square
