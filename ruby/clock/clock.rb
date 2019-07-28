@@ -1,39 +1,44 @@
 class Clock
-  def initialize(time)
-    @hour = time[:hour] || 0
-    @minute = time[:minute] || 0
-    @base_unit = time[:base_unit]
+  def initialize(clock)
+    @hour = clock[:hour] || 0
+    @minute = clock[:minute] || 0
   end
 
   def to_s
-    "#{zero_pad(time[0])}:#{zero_pad(time[1])}"
+    hour, minute = time
+    "#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
 
-  def +(clock)
-    Clock.new(base_unit: base_unit + clock.base_unit)
+  def +(other_clock)
+    Clock.new(
+      hour: time[0] + other_clock.time[0],
+      minute: time[1] + other_clock.time[1]
+    )
   end
 
-  def -(clock)
-    Clock.new(base_unit: base_unit - clock.base_unit)
+  def -(other_clock)
+    Clock.new(
+      hour: time[0] - other_clock.time[0],
+      minute: time[1] - other_clock.time[1]
+    )
   end
 
-  def ==(clock)
-    time == clock.time
+  def ==(other_clock)
+    time == other_clock.time
   end
 
   protected
 
-  def base_unit
-    @base_unit ||= (@hour % 24) * 60 + @minute
-  end
-
   def time
-    [(base_unit / 60) % 24, base_unit % 60]
+    @time ||= begin
+      hour, minute = (@hour * 60 + @minute).divmod(60)
+      [hour % 24, minute]
+    end
   end
 
   private
 
-  def zero_pad(time)
-    '%02d' % time
+  def zero_pad(number)
+    '%02d' % number
   end
 end
