@@ -1,12 +1,11 @@
 class Clock
-  def initialize(clock)
-    @hour = clock[:hour] || 0
-    @minute = clock[:minute] || 0
+  def initialize(hour: 0, minute: 0)
+    @hour = hour
+    @minute = minute
   end
 
   def to_s
-    hour, minute = time
-    "#{zero_pad(hour)}:#{zero_pad(minute)}"
+    "#{zero_pad(time[0])}:#{zero_pad(time[1])}"
   end
 
   def +(other_clock)
