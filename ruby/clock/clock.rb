@@ -5,20 +5,20 @@ class Clock
   end
 
   def to_s
-    "#{zero_pad(time[0])}:#{zero_pad(time[1])}"
+    "#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
 
   def +(other_clock)
     Clock.new(
-      hour: time[0] + other_clock.time[0],
-      minute: time[1] + other_clock.time[1]
+      hour: hour + other_clock.hour,
+      minute: minute + other_clock.minute
     )
   end
 
   def -(other_clock)
     Clock.new(
-      hour: time[0] - other_clock.time[0],
-      minute: time[1] - other_clock.time[1]
+      hour: hour - other_clock.hour,
+      minute: minute - other_clock.minute
     )
   end
 
@@ -33,6 +33,14 @@ class Clock
       hour, minute = (@hour * 60 + @minute).divmod(60)
       [hour % 24, minute]
     end
+  end
+
+  def hour
+    time[0]
+  end
+
+  def minute
+    time[1]
   end
 
   private
