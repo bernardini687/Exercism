@@ -1,46 +1,24 @@
 class Clock
-  def initialize(hour: 0, minute: 0)
-    @hour = hour
-    @minute = minute
+  attr_reader :time
+
+  def initialize(time: nil, hour: 0, minute: 0)
+    @time = time.nil? ? (hour * 60 + minute) % 1440 : time % 1440
   end
 
   def to_s
-    "#{zero_pad(hour)}:#{zero_pad(minute)}"
+    "#{zero_pad(time / 60)}:#{zero_pad(time % 60)}"
   end
 
   def +(other_clock)
-    Clock.new(
-      hour: hour + other_clock.hour,
-      minute: minute + other_clock.minute
-    )
+    Clock.new(time: time + other_clock.time)
   end
 
   def -(other_clock)
-    Clock.new(
-      hour: hour - other_clock.hour,
-      minute: minute - other_clock.minute
-    )
+    Clock.new(time: time - other_clock.time)
   end
 
   def ==(other_clock)
     time == other_clock.time
-  end
-
-  protected
-
-  def time
-    @time ||= begin
-      hour, minute = (@hour * 60 + @minute).divmod(60)
-      [hour % 24, minute]
-    end
-  end
-
-  def hour
-    time[0]
-  end
-
-  def minute
-    time[1]
   end
 
   private
