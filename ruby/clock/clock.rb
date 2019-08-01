@@ -2,7 +2,7 @@ class Clock
   attr_reader :time
 
   def initialize(time: nil, hour: 0, minute: 0)
-    @time = time.nil? ? (hour * 60 + minute) % 1440 : time % 1440
+    @time = (time.nil? ? (hour * 60 + minute) : time) % 1440
   end
 
   def to_s
