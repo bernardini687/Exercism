@@ -7,6 +7,8 @@ class TwelveDays
 
   GIVER = 'my true love'
 
+  attr_reader :gifts, :giver
+
   def initialize(gifts: nil, giver: nil)
     @gifts = gifts || GIFTS
     @giver = giver || GIVER
