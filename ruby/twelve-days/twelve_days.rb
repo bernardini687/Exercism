@@ -21,9 +21,21 @@ module CumulativeSong
   end
 
   class List
+    attr_reader :list
+
     def initialize(list: [])
       raise ArgumentError, "#{list} must be an Array" unless list.is_a? Array
       @list = list
+    end
+
+    private
+
+    def last
+      case list.size
+      when 0 then ''
+      when 1 then "#{list[0]}."
+      else ", and #{list[-1]}."
+      end
     end
   end
 end
