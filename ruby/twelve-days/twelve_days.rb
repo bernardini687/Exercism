@@ -5,6 +5,8 @@ class TwelveDays
     third: 'three French Hens'
   }
 
+  GIVER = 'my true love'
+
   def self.song
 
   end
