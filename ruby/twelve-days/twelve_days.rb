@@ -28,6 +28,10 @@ module CumulativeSong
       @list = list
     end
 
+    def to_s
+      list[0..-2].join(', ') << last
+    end
+
     private
 
     def last
