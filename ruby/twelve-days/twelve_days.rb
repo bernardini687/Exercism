@@ -7,6 +7,11 @@ class TwelveDays
 
   GIVER = 'my true love'
 
+  def initialize(gifts: nil, giver: nil)
+    @gifts = gifts || GIFTS
+    @giver = giver || GIVER
+  end
+
   def self.song
 
   end
