@@ -33,10 +33,10 @@ module CumulativeSong
       song = ''
       gifts.each do |key, value|
         list.unshift value
-        verse = "On the #{key} day of Christmas #{giver} gave to me: "
-        song = song + verse + CumulativeSong::List.new(list: list).to_s + "\n\n"
+        verse = "On the #{key} day of Christmas #{giver} gave to me:"
+        song += "#{verse} #{CumulativeSong::List.new(list: list)}\n\n"
       end
-      song.strip + "\n"
+      song.rstrip + "\n"
     end
   end
 
