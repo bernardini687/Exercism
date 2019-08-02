@@ -29,12 +29,12 @@ module CumulativeSong
     end
 
     def to_s
-      list[0..-2].join(', ') << last
+      list[0..-2].join(', ') << last_item
     end
 
     private
 
-    def last
+    def last_item
       case list.size
       when 0 then ''
       when 1 then "#{list[0]}."
