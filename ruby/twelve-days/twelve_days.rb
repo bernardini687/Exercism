@@ -18,6 +18,17 @@ module CumulativeSong
     def self.song
 
     end
+
+    def song
+      list = []
+      song = ''
+      gifts.each do |key, value|
+        list.unshift value
+        verse = "On the #{key} day of Christmas #{giver} gave to me: "
+        song = song + verse + CumulativeSong::List.new(list: list).to_s + "/n"
+      end
+      song
+    end
   end
 
   class List
