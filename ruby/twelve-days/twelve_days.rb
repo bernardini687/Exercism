@@ -33,21 +33,21 @@ module CumulativeSong
       gifts.map do |day, gift|
         list.unshift(gift)
         verse(day, list)
-      end.join("\n\n") + "\n"
+      end.join("\n\n")
     end
 
     private
 
     def verse(day, gifts)
       "On the #{day} day of Christmas #{giver} gave to me: "\
-      "#{CumulativeSong::List.new(list: gifts)}"
+      "#{CumulativeSong::List.new(*gifts)}"
     end
   end
 
   class List
     attr_reader :list
 
-    def initialize(list: [])
+    def initialize(*list)
       raise ArgumentError, "#{list} must be an Array" unless list.is_a? Array
       @list = list
     end
