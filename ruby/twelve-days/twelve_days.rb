@@ -48,7 +48,6 @@ module CumulativeSong
     attr_reader :list
 
     def initialize(*list)
-      raise ArgumentError, "#{list} must be an Array" unless list.is_a? Array
       @list = list
     end
 
