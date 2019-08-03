@@ -19,9 +19,9 @@ module CumulativeSong
 
     attr_reader :gifts, :giver
 
-    def initialize(gifts: nil, giver: nil)
-      @gifts = gifts || GIFTS
-      @giver = giver || GIVER
+    def initialize(gifts: GIFTS, giver: GIVER)
+      @gifts = gifts
+      @giver = giver
     end
 
     def self.song
@@ -30,13 +30,17 @@ module CumulativeSong
 
     def song
       list = []
-      song = ''
-      gifts.each do |key, value|
-        list.unshift value
-        verse = "On the #{key} day of Christmas #{giver} gave to me:"
-        song += "#{verse} #{CumulativeSong::List.new(list: list)}\n\n"
-      end
-      song.rstrip + "\n"
+      gifts.map do |day, gift|
+        list.unshift(gift)
+        verse(day, list)
+      end.join("\n\n") + "\n"
+    end
+
+    private
+
+    def verse(day, gifts)
+      "On the #{day} day of Christmas #{giver} gave to me: "\
+      "#{CumulativeSong::List.new(list: gifts)}"
     end
   end
 
@@ -49,16 +53,20 @@ module CumulativeSong
     end
 
     def to_s
-      list[0..-2].join(', ') << last_item
+      all_items.join(', ')
     end
 
     private
+
+    def all_items
+      list[0..-2] << last_item
+    end
 
     def last_item
       case list.size
       when 0 then ''
       when 1 then "#{list[0]}."
-      else ", and #{list[-1]}."
+      else "and #{list[-1]}."
       end
     end
   end
