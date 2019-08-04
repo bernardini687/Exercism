@@ -64,10 +64,7 @@ module CumulativeSong
 
     def last_item
       *, item = list
-      case list.size
-      when 1 then "#{item}."
-      else "and #{item}."
-      end
+      list.size == 1 ? "#{item}." : "and #{item}."
     end
   end
 end
