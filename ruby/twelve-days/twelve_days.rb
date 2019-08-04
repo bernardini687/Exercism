@@ -51,11 +51,6 @@ module CumulativeSong
       limiter = days.index(day)
       days[0..limiter].reverse
     end
-
-    def verse(day, gifts)
-      "On the #{day} day of Christmas #{giver} gave to me: "\
-      "#{CumulativeSong::List.new(*gifts)}"
-    end
   end
 
   class List
