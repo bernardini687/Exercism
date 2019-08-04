@@ -30,14 +30,27 @@ module CumulativeSong
     end
 
     def song
-      list = []
-      gifts.map do |day, gift|
-        list.unshift(gift)
-        verse(day, list)
+      gifts.each_key.map do |day|
+        verse(day)
       end.join("\n\n")
     end
 
     private
+
+    def verse(day)
+      "On the #{day} day of Christmas #{giver} gave to me: "\
+      "#{CumulativeSong::List.new(*gifts_before(day))}"
+    end
+
+    def gifts_before(day)
+      gifts.values_at(*days_before(day))
+    end
+
+    def days_before(day)
+      days = gifts.keys
+      limiter = days.index(day)
+      days[0..limiter].reverse
+    end
 
     def verse(day, gifts)
       "On the #{day} day of Christmas #{giver} gave to me: "\
