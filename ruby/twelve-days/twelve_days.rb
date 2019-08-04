@@ -1,3 +1,4 @@
+require 'pry'
 module CumulativeSong
   class TwelveDays
     GIFTS = {
@@ -62,10 +63,10 @@ module CumulativeSong
     end
 
     def last_item
+      *, item = list
       case list.size
-      when 0 then ''
-      when 1 then "#{list[0]}."
-      else "and #{list[-1]}."
+      when 1 then "#{item}."
+      else "and #{item}."
       end
     end
   end
