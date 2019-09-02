@@ -1,4 +1,3 @@
-require 'pry'
 module CumulativeSong
   class TwelveDays
     GIFTS = {
@@ -14,9 +13,9 @@ module CumulativeSong
       tenth: 'ten Lords-a-Leaping',
       eleventh: 'eleven Pipers Piping',
       twelfth: 'twelve Drummers Drumming'
-    }
+    }.freeze
 
-    GIVER = 'my true love'
+    GIVER = 'my true love'.freeze
 
     attr_reader :gifts, :giver
 
