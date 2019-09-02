@@ -60,18 +60,16 @@ module CumulativeSong
     end
 
     def to_s
-      all_items.join(', ')
+      to_series
     end
 
     private
 
-    def all_items
-      list[0..-2] << last_item
-    end
+    def to_series
+      *items, last_item = list
+      return "#{last_item}." if list.one?
 
-    def last_item
-      *, item = list
-      list.size == 1 ? "#{item}." : "and #{item}."
+      [*items, "and #{last_item}."].join(', ')
     end
   end
 end
