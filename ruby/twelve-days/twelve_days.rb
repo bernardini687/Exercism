@@ -38,7 +38,7 @@ module CumulativeSong
 
     def verse(day)
       "On the #{day} day of Christmas #{giver} gave to me: "\
-      "#{CumulativeSong::List.new(*gifts_before(day))}"
+      "#{a_series_of(gifts_before(day))}"
     end
 
     def gifts_before(day)
@@ -50,26 +50,12 @@ module CumulativeSong
       limiter = days.index(day)
       days[0..limiter].reverse
     end
-  end
 
-  class List
-    attr_reader :list
+    def a_series_of(items)
+      *list, last_item = items
+      return "#{last_item}." if items.one?
 
-    def initialize(*list)
-      @list = list
-    end
-
-    def to_s
-      to_series
-    end
-
-    private
-
-    def to_series
-      *items, last_item = list
-      return "#{last_item}." if list.one?
-
-      [*items, "and #{last_item}."].join(', ')
+      [*list, "and #{last_item}."].join(', ')
     end
   end
 end
