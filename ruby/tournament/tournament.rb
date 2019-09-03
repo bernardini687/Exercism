@@ -48,6 +48,7 @@ class Tournament
 
   def parse(line)
     first_team, second_team, result = line.split ';'
+
     if result == 'win'
       store[first_team] = save first_team, :wins
       store[second_team] = save second_team, :loses
@@ -61,13 +62,13 @@ class Tournament
   end
 
   def save(team, verb)
-    # update the stored records or add their first data
+    # update the stored record or add its first data
     store[team]&.merge(method(verb).call) do |_, old_data, new_data|
       old_data + new_data
     end || method(verb).call
   end
 
-  # use the following verbs as masks to update the stored records
+  # using the following verbs as masks to update the stored records
 
   def wins
     # (m)atches (p)layed, (w)on, (d)rawn, (l)ost
@@ -88,8 +89,8 @@ class Tournament
 
   def data
     store.values.map do |data|
-      points = calculate_points(data)
-      "|  #{data[:mp]} |  #{data[:w]} |  #{data[:d]} |  #{data[:l]} |  #{points}"
+      "|  #{data[:mp]} |  #{data[:w]} |  #{data[:d]} |  #{data[:l]} "\
+      "|  #{calculate_points(data)}"
     end
   end
 
