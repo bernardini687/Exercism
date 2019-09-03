@@ -16,6 +16,14 @@ class Tournament
     [header, rows].join("\n") + "\n"
   end
 
+  def header
+    row 'Team', '| MP |  W |  D |  L |  P'
+  end
+
+  def row(name, data, padding: 31)
+    name.ljust(padding) + data
+  end
+
   def no_data?
     log.nil? || log.strip.empty?
   end
@@ -73,14 +81,6 @@ class Tournament
 
   def loses
     { mp: 1, w: 0, d: 0, l: 1 }
-  end
-
-  def header
-    row 'Team', '| MP |  W |  D |  L |  P'
-  end
-
-  def row(name, data, padding: 31)
-    name.ljust(padding) + data
   end
 
   def data
