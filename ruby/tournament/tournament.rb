@@ -10,10 +10,14 @@ class Tournament
   end
 
   def tally
-    header
+    [header, *rows].join "\n"
+  end
+
+  def rows
+    input.split "\n"
   end
 
   def header
-    'Team'.ljust(31) + "| MP |  W |  D |  L |  P\n"
+    'Team'.ljust(31) + '| MP |  W |  D |  L |  P'
   end
 end
