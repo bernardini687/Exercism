@@ -16,6 +16,8 @@ class Tournament
     [header, rows].join("\n") + "\n"
   end
 
+  private
+
   def header
     row 'Team', '| MP |  W |  D |  L |  P'
   end
@@ -29,18 +31,15 @@ class Tournament
   end
 
   def rows
-    log_lines.each { |line| parse line }                       # parsing
+    log_lines.each { |line| parse line }
     rows = []
 
     teams.zip(data) do |team, data|
-      rows << row(team, data)                      # formatting
+      rows << row(team, data)
     end
 
-    rows.sort.sort_by { |data| -data[-1].to_i }          # sorting
-  end
-
-  def teams
-    store.keys
+    # sort alphabetically first, then sort by points
+    rows.sort.sort_by { |data| -points(data) }
   end
 
   def log_lines
@@ -83,14 +82,22 @@ class Tournament
     { mp: 1, w: 0, d: 0, l: 1 }
   end
 
+  def teams
+    store.keys
+  end
+
   def data
     store.values.map do |data|
-      points = total_points(data)
+      points = calculate_points(data)
       "|  #{data[:mp]} |  #{data[:w]} |  #{data[:d]} |  #{data[:l]} |  #{points}"
     end
   end
 
-  def total_points(data)
+  def calculate_points(data)
     data[:w] * 3 + data[:d]
+  end
+
+  def points(data)
+    data[/\d+\z/].to_i
   end
 end
