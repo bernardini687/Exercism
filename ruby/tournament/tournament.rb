@@ -34,7 +34,7 @@ class Tournament
     log_lines.each { |line| parse line }
     rows = []
 
-    teams.zip(data) do |team, data|
+    teams.zip data do |team, data|
       rows << row(team, data)
     end
 
