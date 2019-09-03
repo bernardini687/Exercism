@@ -16,15 +16,21 @@ class Tournament
   def tally
     return header + "\n" if no_data?
 
-    [header, parsed_rows].join "\n"
+    [header, parsed_rows].join("\n") + "\n"
   end
 
   def no_data?
-    match_results.nil? || match_results.empty?
+    match_results.nil? || match_results.strip.empty?
   end
 
   def parsed_rows
-    rows.map { |row| parse row }
+    rows.each { |row| parse row }
+    result = []
+
+    match_data.keys.zip(tabulize(match_data.values)) do |name, data|
+      result << name.ljust(31) + data
+    end
+    result
   end
 
   def rows
@@ -33,15 +39,17 @@ class Tournament
 
   def parse(match)
     first_team, second_team, result = match.split ';'
-    # if result win
-    # match_data[first_team] = wins
-    # match_data[second_team] = loses
-    # if draw
-    # match_data[first_team] = ties
-    # match_data[second_team] = ties
-    # else
-    # match_data[first_team] = loses
-    # match_data[second_team] = wins
+    case result
+    when 'win'
+      match_data[first_team] = match_data[first_team]&.merge(wins) || wins
+      match_data[second_team] = match_data[second_team]&.merge(loses) || loses
+    when 'draw'
+      match_data[first_team] = match_data[first_team]&.merge(ties) || ties
+      match_data[second_team] = match_data[second_team]&.merge(ties) || ties
+    else
+      match_data[first_team] = match_data[first_team]&.merge(loses) || loses
+      match_data[second_team] = match_data[second_team]&.merge(wins) || wins
+    end
   end
 
   # use these as masks to increment the results
@@ -61,5 +69,16 @@ class Tournament
 
   def header
     'Team'.ljust(31) + '| MP |  W |  D |  L |  P'
+  end
+
+  def tabulize(values)
+    values.map do |v|
+      points = total_points(v)
+      "|  #{v[:mp]} |  #{v[:won]} |  #{v[:drawn]} |  #{v[:lost]} |  #{points}"
+    end
+  end
+
+  def total_points(data)
+    data[:won] * 3 + data[:drawn]
   end
 end
