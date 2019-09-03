@@ -30,7 +30,7 @@ class Tournament
     match_data.keys.zip(tabulize(match_data.values)) do |name, data|
       result << name.ljust(31) + data
     end
-    result
+    result.sort_by { |data| -data[-1].to_i }
   end
 
   def rows
