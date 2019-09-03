@@ -30,7 +30,7 @@ class Tournament
     match_data.keys.zip(tabulize(match_data.values)) do |name, data|
       result << name.ljust(31) + data
     end
-    result.sort_by { |data| -data[-1].to_i }
+    result.sort.sort_by { |data| -data[-1].to_i }
   end
 
   def rows
@@ -41,14 +41,14 @@ class Tournament
     first_team, second_team, result = match.split ';'
     case result
     when 'win'
-      match_data[first_team] = match_data[first_team]&.merge(wins) || wins
-      match_data[second_team] = match_data[second_team]&.merge(loses) || loses
+      match_data[first_team] = match_data[first_team]&.merge(wins) { |_, n, o| n + o } || wins
+      match_data[second_team] = match_data[second_team]&.merge(loses) { |_, n, o| n + o } || loses
     when 'draw'
-      match_data[first_team] = match_data[first_team]&.merge(ties) || ties
-      match_data[second_team] = match_data[second_team]&.merge(ties) || ties
+      match_data[first_team] = match_data[first_team]&.merge(ties) { |_, n, o| n + o } || ties
+      match_data[second_team] = match_data[second_team]&.merge(ties) { |_, n, o| n + o } || ties
     else
-      match_data[first_team] = match_data[first_team]&.merge(loses) || loses
-      match_data[second_team] = match_data[second_team]&.merge(wins) || wins
+      match_data[first_team] = match_data[first_team]&.merge(loses) { |_, n, o| n + o } || loses
+      match_data[second_team] = match_data[second_team]&.merge(wins) { |_, n, o| n + o } || wins
     end
   end
 
