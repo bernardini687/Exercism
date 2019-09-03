@@ -1,17 +1,16 @@
 require 'pry'
 
 class Tournament
-  def self.tally(input)
-    new(input).tally
+  def self.tally(logs)
+    new(logs).tally
   end
 
-  def initialize(match_results)
-    @match_results = match_results
-    @match_data = {}
+  def initialize(logs)
+    @logs = logs
+    @store = {}
   end
 
-  attr_reader :match_results
-  attr_accessor :match_data
+  attr_reader :logs, :store
 
   def tally
     return header + "\n" if no_data?
@@ -20,40 +19,44 @@ class Tournament
   end
 
   def no_data?
-    match_results.nil? || match_results.strip.empty?
+    logs.nil? || logs.strip.empty?
   end
 
   def parsed_rows
     rows.each { |row| parse row }
     result = []
 
-    match_data.keys.zip(tabulize(match_data.values)) do |name, data|
+    store.keys.zip(tabulize(store.values)) do |name, data|
       result << name.ljust(31) + data
     end
     result.sort.sort_by { |data| -data[-1].to_i }
   end
 
   def rows
-    match_results.split "\n"
+    logs.split "\n"
   end
 
   def parse(match)
     first_team, second_team, result = match.split ';'
     case result
     when 'win'
-      match_data[first_team] = match_data[first_team]&.merge(wins) { |_, n, o| n + o } || wins
-      match_data[second_team] = match_data[second_team]&.merge(loses) { |_, n, o| n + o } || loses
+      store[first_team] = foo(first_team, :wins)
+      store[second_team] = foo(second_team, :loses)
     when 'draw'
-      match_data[first_team] = match_data[first_team]&.merge(ties) { |_, n, o| n + o } || ties
-      match_data[second_team] = match_data[second_team]&.merge(ties) { |_, n, o| n + o } || ties
+      store[first_team] = foo(first_team, :ties)
+      store[second_team] = foo(second_team, :ties)
     else
-      match_data[first_team] = match_data[first_team]&.merge(loses) { |_, n, o| n + o } || loses
-      match_data[second_team] = match_data[second_team]&.merge(wins) { |_, n, o| n + o } || wins
+      store[first_team] = foo(first_team, :loses)
+      store[second_team] = foo(second_team, :wins)
     end
   end
 
   # use these as masks to increment the results
   # lastly calculate the points
+
+  def foo(team, result)
+    store[team]&.merge(method(result).call) { |_, n, o| n + o } || method(result).call
+  end
 
   def wins
     { mp: 1, won: 1, drawn: 0, lost: 0 }
