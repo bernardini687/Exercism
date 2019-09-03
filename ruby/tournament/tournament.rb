@@ -1,87 +1,96 @@
-require 'pry'
-
 class Tournament
-  def self.tally(logs)
-    new(logs).tally
+  def self.tally(log)
+    new(log).tally
   end
 
-  def initialize(logs)
-    @logs = logs
+  def initialize(log)
+    @log = log
     @store = {}
   end
 
-  attr_reader :logs, :store
+  attr_reader :log, :store
 
   def tally
     return header + "\n" if no_data?
 
-    [header, parsed_rows].join("\n") + "\n"
+    [header, rows].join("\n") + "\n"
   end
 
   def no_data?
-    logs.nil? || logs.strip.empty?
-  end
-
-  def parsed_rows
-    rows.each { |row| parse row }
-    result = []
-
-    store.keys.zip(tabulize(store.values)) do |name, data|
-      result << name.ljust(31) + data
-    end
-    result.sort.sort_by { |data| -data[-1].to_i }
+    log.nil? || log.strip.empty?
   end
 
   def rows
-    logs.split "\n"
+    log_lines.each { |line| parse line }                       # parsing
+    rows = []
+
+    teams.zip(data) do |team, data|
+      rows << row(team, data)                      # formatting
+    end
+
+    rows.sort.sort_by { |data| -data[-1].to_i }          # sorting
   end
 
-  def parse(match)
-    first_team, second_team, result = match.split ';'
-    case result
-    when 'win'
-      store[first_team] = foo(first_team, :wins)
-      store[second_team] = foo(second_team, :loses)
-    when 'draw'
-      store[first_team] = foo(first_team, :ties)
-      store[second_team] = foo(second_team, :ties)
+  def teams
+    store.keys
+  end
+
+  def log_lines
+    log.split "\n"
+  end
+
+  def parse(line)
+    first_team, second_team, result = line.split ';'
+    if result == 'win'
+      store[first_team] = save first_team, :wins
+      store[second_team] = save second_team, :loses
+    elsif result == 'draw'
+      store[first_team] = save first_team, :ties
+      store[second_team] = save second_team, :ties
     else
-      store[first_team] = foo(first_team, :loses)
-      store[second_team] = foo(second_team, :wins)
+      store[first_team] = save first_team, :loses
+      store[second_team] = save second_team, :wins
     end
   end
 
-  # use these as masks to increment the results
-  # lastly calculate the points
-
-  def foo(team, result)
-    store[team]&.merge(method(result).call) { |_, n, o| n + o } || method(result).call
+  def save(team, verb)
+    # update the stored records or add their first data
+    store[team]&.merge(method(verb).call) do |_, old_data, new_data|
+      old_data + new_data
+    end || method(verb).call
   end
 
+  # use the following verbs as masks to update the stored records
+
   def wins
-    { mp: 1, won: 1, drawn: 0, lost: 0 }
+    # (m)atches (p)layed, (w)on, (d)rawn, (l)ost
+    { mp: 1, w: 1, d: 0, l: 0 }
   end
 
   def ties
-    { mp: 1, won: 0, drawn: 1, lost: 0 }
+    { mp: 1, w: 0, d: 1, l: 0 }
   end
 
   def loses
-    { mp: 1, won: 0, drawn: 0, lost: 1 }
+    { mp: 1, w: 0, d: 0, l: 1 }
   end
 
   def header
-    'Team'.ljust(31) + '| MP |  W |  D |  L |  P'
+    row 'Team', '| MP |  W |  D |  L |  P'
   end
 
-  def tabulize(values)
-    values.map do |v|
-      points = total_points(v)
-      "|  #{v[:mp]} |  #{v[:won]} |  #{v[:drawn]} |  #{v[:lost]} |  #{points}"
+  def row(name, data, padding: 31)
+    name.ljust(padding) + data
+  end
+
+  def data
+    store.values.map do |data|
+      points = total_points(data)
+      "|  #{data[:mp]} |  #{data[:w]} |  #{data[:d]} |  #{data[:l]} |  #{points}"
     end
   end
 
   def total_points(data)
-    data[:won] * 3 + data[:drawn]
+    data[:w] * 3 + data[:d]
   end
 end
