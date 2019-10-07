@@ -9,6 +9,7 @@ class School
 
   def add(name, grade)
     data[grade] << name
+    data[grade].sort!
   end
 
   private
