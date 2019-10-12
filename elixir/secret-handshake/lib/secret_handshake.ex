@@ -16,4 +16,6 @@ defmodule SecretHandshake do
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
   end
+
+  # Integer.to_string code, 2
 end
