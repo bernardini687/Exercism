@@ -15,7 +15,13 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    decode(to_bits(code), [])
+    bits = to_bits(code)
+
+    if length(bits) == 5 do
+      decode(bits, [])
+    else
+      []
+    end
   end
 
   defp to_bits(int) do
