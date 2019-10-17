@@ -15,7 +15,36 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
+    decode(to_bits(code), [])
   end
 
-  # Integer.to_string code, 2
+  defp to_bits(int) do
+    Integer.to_string(int, 2)
+    |> String.pad_leading(5, "0")
+    |> String.split("", trim: true)
+  end
+
+  defp decode([r, j, c, d, "1"], message) do
+    decode([r, j, c, d, nil], ["wink" | message])
+  end
+
+  defp decode([r, j, c, "1", _], message) do
+    decode([r, j, c, nil, nil], ["double blink" | message])
+  end
+
+  defp decode([r, j, "1", _, _], message) do
+    decode([r, j, nil, nil, nil], ["close your eyes" | message])
+  end
+
+  defp decode([r, "1", _, _, _], message) do
+    decode([r, nil, nil, nil, nil], ["jump" | message])
+  end
+
+  defp decode([r, _, _, _, _], message) do
+    if r == "1" do
+      message
+    else
+      Enum.reverse(message)
+    end
+  end
 end
