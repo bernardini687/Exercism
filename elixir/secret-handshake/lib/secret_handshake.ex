@@ -17,21 +17,31 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    bits =
+    msg =
       code
-      |> to_bits
-      |> Enum.with_index
+      |> to_bits()
+      |> select_actions()
 
+    if List.starts_with?(msg, [:rev]) do
+      [_ | actions] = msg
+      Enum.reverse(actions)
+    else
+      msg
+    end
+  end
+
+  def to_bits(int) do
+    Integer.to_string(int, 2)
+    |> String.pad_leading(5, "0")
+    |> String.codepoints()
+    |> Enum.with_index()
+  end
+
+  def select_actions(bits) do
     for {bit, index} <- bits,
         bit == "1" do
       {action, _} = List.pop_at(@msg, index)
       action
     end
-  end
-
-  defp to_bits(int) do
-    Integer.to_string(int, 2)
-    |> String.pad_leading(5, "0")
-    |> String.split("", trim: true)
   end
 end
