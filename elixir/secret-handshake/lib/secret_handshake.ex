@@ -1,5 +1,5 @@
 defmodule SecretHandshake do
-  @msg [:rev, "jump", "close your eyes", "double blink", "wink"]
+  @codes [:rev, "jump", "close your eyes", "double blink", "wink"]
 
   @doc """
   Determine the actions of a secret handshake based on the binary
@@ -17,31 +17,32 @@ defmodule SecretHandshake do
   """
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    msg =
+    message =
       code
       |> to_bits()
       |> select_actions()
 
-    if List.starts_with?(msg, [:rev]) do
-      [_ | actions] = msg
-      Enum.reverse(actions)
+    if List.last(message) == :rev do
+      [_flag | actions] = Enum.reverse(message)
+      actions
     else
-      msg
+      message
     end
   end
 
-  def to_bits(int) do
+  defp to_bits(int) do
     Integer.to_string(int, 2)
     |> String.pad_leading(5, "0")
     |> String.codepoints()
     |> Enum.with_index()
   end
 
-  def select_actions(bits) do
+  defp select_actions(bits) do
     for {bit, index} <- bits,
         bit == "1" do
-      {action, _} = List.pop_at(@msg, index)
+      {action, _} = List.pop_at(@codes, index)
       action
     end
+    |> Enum.reverse()
   end
 end
