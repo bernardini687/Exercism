@@ -16,6 +16,7 @@ defmodule RnaTranscription do
       fn dna_n ->
         %{^dna_n => rna_n} = @translator
         rna_n
-      end)
+      end
+    )
   end
 end
