@@ -1,5 +1,5 @@
 defmodule RnaTranscription do
-  @translator %{?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U}
+  @dna_to_rna %{?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U}
 
   @doc """
   Transcribes a character list representing DNA nucleotides to RNA
@@ -13,9 +13,9 @@ defmodule RnaTranscription do
   def to_rna(dna) do
     Enum.map(
       dna,
-      fn dna_n ->
-        %{^dna_n => rna_n} = @translator
-        rna_n
+      fn dna_nucleotide ->
+        %{^dna_nucleotide => rna_nucleotide} = @dna_to_rna
+        rna_nucleotide
       end
     )
   end
