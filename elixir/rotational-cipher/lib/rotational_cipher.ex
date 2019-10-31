@@ -46,8 +46,8 @@ defmodule RotationalCipher do
   end
 
   defp calc_wrap(char, shift, :lower),
-    do: Integer.mod(char + shift - @locase_start, ?z - @locase_start)
+    do: rem(char + shift - @locase_start, ?z - @locase_start)
 
   defp calc_wrap(char, shift, :upper),
-    do: Integer.mod(char + shift - @upcase_start, ?Z - @upcase_start)
+    do: rem(char + shift - @upcase_start, ?Z - @upcase_start)
 end
