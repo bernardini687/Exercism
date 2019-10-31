@@ -1,4 +1,7 @@
 defmodule RotationalCipher do
+  @locase_start ?a - 1
+  @upcase_start ?A - 1
+
   @doc """
   Given a plaintext and amount to shift by, return a rotated string.
 
@@ -18,31 +21,33 @@ defmodule RotationalCipher do
     String.replace(
       text,
       ~r/[a-zA-Z]/,
-      fn <<char>> ->
-        if char in ?a..?z do
-          case calc_shift(char, shift, :lower) do
-            0 ->
-              char + shift
-
-            n ->
-              96 + n
-          end
-        else
-          case calc_shift(char, shift, :upper) do
-            0 ->
-              char + shift
-
-            n ->
-              64 + n
-          end
-        end
-      end
+      fn <<char>> -> wrap_char(char, shift) end
     )
   end
 
-  defp calc_shift(char, shift, :lower),
-    do: Integer.mod(char + shift - 96, ?z - 96)
+  def wrap_char(char, shift) when char in ?a..?z do
+    case calc_wrap(char, shift, :lower) do
+      0 ->
+        char + shift
 
-  defp calc_shift(char, shift, :upper),
-    do: Integer.mod(char + shift - 64, ?Z - 64)
+      n ->
+        @locase_start + n
+    end
+  end
+
+  def wrap_char(char, shift) when char in ?A..?Z do
+    case calc_wrap(char, shift, :upper) do
+      0 ->
+        char + shift
+
+      n ->
+        @upcase_start + n
+    end
+  end
+
+  defp calc_wrap(char, shift, :lower),
+    do: Integer.mod(char + shift - @locase_start, ?z - @locase_start)
+
+  defp calc_wrap(char, shift, :upper),
+    do: Integer.mod(char + shift - @upcase_start, ?Z - @upcase_start)
 end
