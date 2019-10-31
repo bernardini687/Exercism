@@ -27,21 +27,15 @@ defmodule RotationalCipher do
 
   def wrap_char(char, shift) when char in ?a..?z do
     case calc_wrap(char, shift, :lower) do
-      0 ->
-        char + shift
-
-      n ->
-        @locase_start + n
+      0 -> char + shift
+      n -> @locase_start + n
     end
   end
 
   def wrap_char(char, shift) when char in ?A..?Z do
     case calc_wrap(char, shift, :upper) do
-      0 ->
-        char + shift
-
-      n ->
-        @upcase_start + n
+      0 -> char + shift
+      n -> @upcase_start + n
     end
   end
 
