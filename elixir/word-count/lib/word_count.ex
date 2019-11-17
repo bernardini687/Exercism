@@ -6,7 +6,7 @@ defmodule WordCount do
   """
   @spec count(String.t()) :: map
   def count(sentence) do
-    words = split(sentence) |> IO.inspect()
+    words = split(sentence)
 
     words
     |> Enum.uniq()
@@ -20,13 +20,13 @@ defmodule WordCount do
 
   def split(sentence) do
     sentence
-    |> String.split(~r(\b))
-    |> Enum.filter(fn part -> part =~ ~r([\w\d]+) end)
+    |> String.split(~r/[[:blank:][:punct:]]/u, trim: true)
+    |> Enum.map(&String.downcase/1)
   end
 
   def occurrences(words, word) do
     words
-    |> Enum.filter(fn w -> w == word end)
+    |> Enum.filter(&(&1 == word))
     |> Enum.count()
   end
 end
