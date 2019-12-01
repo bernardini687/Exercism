@@ -5,5 +5,8 @@ export function keep<T>(collection: any[], fun: predicate<T>) {
 }
 
 export function discard<T>(collection: any[], fun: predicate<T>) {
-  return (collection as any).reject(fun);
+  return collection.reduce((prev, curr) => {
+    if (!fun(curr)) prev.push(curr);
+    return prev;
+  }, []);
 }
