@@ -1,12 +1,12 @@
-type predicate<T> = (e: T) => boolean;
+type predicate<T> = (item: T) => boolean;
 
-export function keep<T>(collection: any[], fun: predicate<T>) {
-  return collection.filter(fun);
+export function keep<T>(collection: Array<T>, fn: predicate<T>) {
+  return collection.filter(fn);
 }
 
-export function discard<T>(collection: any[], fun: predicate<T>) {
-  return collection.reduce((prev, curr) => {
-    if (!fun(curr)) prev.push(curr);
-    return prev;
+export function discard<T>(collection: Array<T>, fn: predicate<T>) {
+  return collection.reduce((select: Array<T>, item: T) => {
+    if (!fn(item)) select.push(item);
+    return select;
   }, []);
 }
